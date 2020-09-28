@@ -94,6 +94,7 @@ type Conn struct {
 	closeErr            atomic.Value
 	isStartingTLS       bool
 	Debug               debugging
+	BoundDN           string
 	chanConfirm         chan struct{}
 	messageContexts     map[int64]*messageContext
 	chanMessage         chan *messagePacket

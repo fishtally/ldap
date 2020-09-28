@@ -382,6 +382,7 @@ func (l *Conn) Search(searchRequest *SearchRequest) (*SearchResult, error) {
 	l.Debug.PrintPacket(packet)
 
 	msgCtx, err := l.sendMessage(packet)
+
 	if err != nil {
 		return nil, err
 	}
@@ -427,10 +428,13 @@ func (l *Conn) Search(searchRequest *SearchRequest) (*SearchResult, error) {
 			}
 			result.Entries = append(result.Entries, entry)
 		case 5:
-			err := GetLDAPError(packet)
-			if err != nil {
-				return nil, err
-			}
+			// todo::异常检测规则不匹配？
+			// 实际执行成功，返回码显示对象不存在
+			//err := GetLDAPError(packet)
+			//log.Println(err)
+			//if err != nil {
+			//	return nil, err
+			//}
 			if len(packet.Children) == 3 {
 				for _, child := range packet.Children[2].Children {
 					decodedChild, err := DecodeControl(child)
